@@ -12,7 +12,9 @@ OBJ_path= files/
 
 header= $(line_path)get_next_line.h $(OBJ_path)so_long.h
 
-CFLAGS= -Werror -Wall -Wextra
+CFLAGS= -Werror -Wall -Wextra -g
+
+MLX= -Imlx -Lmlx -lmlx -framework OpenGL -framework Appkit
 
 all:$(NAME)
 
@@ -20,7 +22,7 @@ start:$(NAME)
 	./$(NAME) "map/test1.ber"
 
 $(NAME): $(OBJ) $(ADDS)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(MLX)
 
 %.o: %.c $(header)
 	$(CC) -c $(CFLAGS) -o $@ $<

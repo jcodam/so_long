@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:13:38 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/11 19:13:12 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/13 18:22:54 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@
 
 typedef struct s_data {
 	void	*img;
-	int		*x;
-	int		*y;
+	int		x;
+	int		y;
 }				t_data;
 
 typedef struct s_player{
 	int		name;
 	int		y;
 	int		x;
-	t_data	*img;
+	int		sluge;
+	void	*img;
+	void	*img2;
 }				t_player;
 
 typedef struct s_vars {
@@ -40,9 +42,14 @@ typedef struct s_vars {
 	t_data		*wall;
 	t_data		*floor;
 	t_data		*collect;
+	t_player	*exit;
 	t_player	*play;
+	t_clist		*map;
+	int			map_x;
+	int			map_y;
 }				t_vars;
 
 t_clist	*make_map(char **argv);
+void	put_map(t_vars *vars, int space);
 
 #endif
