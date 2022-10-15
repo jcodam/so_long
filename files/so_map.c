@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:16:14 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/13 18:27:27 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/15 15:45:26 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ void	put_map(t_vars *vars, int space)
 		xy[0] = 0;
 		xy[1]++;
 	}
-	printf("sluge %d\n", vars->play->sluge);
 	if (!vars->play->sluge)
+	{
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit->img2, 10 + vars->exit->x * 64, 10 + vars->exit->y * 64);
+		vars->exit->sluge = 0;
+	}
 	else
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit->img, 10 + vars->exit->x * 64, 10 + vars->exit->y * 64);
 }
-	// system("leaks -q so_long");
+	// system("leaks -q so_long"); map_x

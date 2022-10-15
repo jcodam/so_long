@@ -6,11 +6,18 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:04:13 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/13 18:23:16 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/15 15:55:04 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	exit_pro(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(0);
+	return (0);
+}
 
 void	aloc_vars(t_vars *vars, t_clist *map)
 {
@@ -19,6 +26,8 @@ void	aloc_vars(t_vars *vars, t_clist *map)
 	vars->wall = malloc(sizeof(t_data));
 	vars->exit = malloc(sizeof(t_player));
 	vars->collect = malloc(sizeof(t_data));
+	vars->play->steps = 0;
+	vars->exit->sluge = 1;
 	vars->map = map;
 	vars->exit->img = mlx_xpm_file_to_image(vars->mlx, "image/BARREL_1.xpm", &vars->play->x, &vars->play->y);
 	vars->exit->img2 = mlx_xpm_file_to_image(vars->mlx, "image/BARREL_3.xpm", &vars->play->x, &vars->play->y);
@@ -38,9 +47,10 @@ void	move(t_vars *vars, t_clist *map, int x, int y)
 		map = map->next;
 	while (vars->play->y > temp->n_list)
 		temp = temp->next;
-	if (map->string[x] != '1')
+	if (map->string[x] != '1' && map->string[x] != 'E')
 	{
-		
+		vars->play->steps++;
+		ft_printf("%d\n",vars->play->steps);
 		c = map->string[x];
 		if (map->string[x] == 'C')
 		{
@@ -49,12 +59,14 @@ void	move(t_vars *vars, t_clist *map, int x, int y)
 		}
 		map->string[x] = temp->string[vars->play->x];
 		temp->string[vars->play->x] = c;
+
 	}
+	if (map->string[x] == 'E' && !vars->exit->sluge)
+		exit_pro(vars);
 }
 
 int		action(int key, t_vars *vars)
 {
-	printf("%d\n", key);
 	if (key == 13)
 		move(vars, vars->map, vars->play->x, vars->play->y - 1);
 	if (key == 1)
@@ -70,10 +82,7 @@ int		action(int key, t_vars *vars)
 	if (key == 34)
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->wall->img, 0, 60);
 	if (key == 53)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(1);
-	}
+		exit_pro(vars);
 	put_map(vars, 64);
 	return (0);
 }
@@ -82,17 +91,20 @@ void	game_loop(t_clist *map)
 {
 	t_vars	vars;
 
-	if (!map)
-		write(2,"test\n",5);
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1024, 384, "so_long");
 	aloc_vars(&vars, map);
-
+	check_map(map, &vars);
+	vars.win = mlx_new_window(vars.mlx, 1024, 384, "so_long");
 	put_map(&vars, 64);
 	mlx_hook(vars.win, 2, 1L<<0, action, &vars);
+	mlx_hook(vars.win, 17, 0L, exit_pro, &vars);
 	mlx_loop(vars.mlx);
 }
 
+void	ffclose(void)
+{
+	system("leaks -q so_long");
+}
 int	main(int argc, char **argv)
 {
 	t_clist	*map;
@@ -106,8 +118,9 @@ int	main(int argc, char **argv)
 	// while (map)
 	// {
 	// 	printf("%s %d \n", map->string, map->n_list);
-	// 	map = map->next;
+	// 	map = map->next; map_y
 	// }
+	atexit(ffclose);
 	game_loop(map);
-	return (0);
+	exit(0);
 }

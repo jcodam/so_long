@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:13:38 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/13 18:22:54 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/15 15:54:45 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "char_list.h"
+# include "../printf/ft_printf.h"
 
 typedef struct s_data {
 	void	*img;
@@ -27,10 +28,10 @@ typedef struct s_data {
 }				t_data;
 
 typedef struct s_player{
-	int		name;
 	int		y;
 	int		x;
 	int		sluge;
+	int		steps;
 	void	*img;
 	void	*img2;
 }				t_player;
@@ -47,9 +48,11 @@ typedef struct s_vars {
 	t_clist		*map;
 	int			map_x;
 	int			map_y;
+	int			map_len;
 }				t_vars;
 
 t_clist	*make_map(char **argv);
 void	put_map(t_vars *vars, int space);
+void	check_map(t_clist *map, t_vars *vars);
 
 #endif
