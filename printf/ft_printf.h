@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/24 14:20:16 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/15 12:35:46 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/17 16:13:01 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include "libft/libft.h"
 
 int	ft_printf(const char *order, ...);
 int	countwriting(int *howlong, const char *prin, int charcount, int plussen);

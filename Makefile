@@ -2,9 +2,9 @@ CC= gcc
 
 NAME=so_long
 
-OBJ= $(OBJ_path)so_main.o $(OBJ_path)so_map.o $(OBJ_path)char_list.o
+OBJ= $(OBJ_path)so_main.o $(OBJ_path)so_map.o $(OBJ_path)char_list.o $(OBJ_path)so_checks.o $(OBJ_path)so_extra.o
 
-ADDS= get_next_line/get_next_line.o get_next_line/get_next_line_utils.o $(print_path)libftprintf.a $(OBJ_path)so_checks.o
+ADDS= get_next_line/get_next_line.o get_next_line/get_next_line_utils.o $(print_path)libftprintf.a
 
 line_path= get_next_line/
 
@@ -12,7 +12,7 @@ OBJ_path= files/
 
 print_path= printf/
 
-header= $(line_path)get_next_line.h $(OBJ_path)so_long.h
+header= $(line_path)get_next_line.h $(OBJ_path)so_long.h $(print_path)ft_printf.h
 
 CFLAGS= -Werror -Wall -Wextra -g
 
@@ -20,24 +20,27 @@ MLX= -Imlx -Lmlx -lmlx -framework OpenGL -framework Appkit
 
 all:$(NAME)
 
-start:$(NAME)
-	./$(NAME) "map/test1.ber"
+smal:$(NAME)
+	./$(NAME) "map/smal_map.ber"
+
+mediam:$(NAME)
+	./$(NAME) "map/mediam_map.ber"
 
 $(NAME): $(OBJ) $(ADDS)
 	$(CC) -o $@ $^ $(MLX)
 
-%.o: %.c $(header)
-	$(CC) -c $(CFLAGS) -o $@ $<
-
 %.a:
 	make -C $(print_path)
+
+%.o: %.c $(header)
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
 	rm -f $(OBJ) $(ADDS)
 	make -C $(print_path) clean
 
-fclean: clean
-	rm -f $(NAME)
+fclean:
+	rm -f $(NAME) $(OBJ) $(ADDS)
 	make -C $(print_path) fclean
 
 re:
@@ -47,4 +50,4 @@ re:
 bonus:
 	$(MAKE) plusbones=1 all
 
-.PHONY: all clean fclean re bonus start
+.PHONY: all clean fclean re bonus smal mediam

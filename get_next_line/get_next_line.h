@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/17 15:44:33 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/11 17:13:25 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/17 16:16:24 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_calloc(size_t size1);
+char	*ft_caloc(size_t size1);
 void	ft_str_copy(char *dest, char *src, size_t len);
 int		ft_zero_free(char **buf);
 

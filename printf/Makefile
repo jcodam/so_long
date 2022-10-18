@@ -6,6 +6,8 @@ header = ft_printf.h
 
 OBJ = ft_printf.o ft_printf_extra.o
 
+ADDS = libft/*.o
+
 BONES_OBJ = 
 
 CFLAGS = -Wall -Werror -Wextra
@@ -18,17 +20,22 @@ endif
 
 all: $(NAME)
 
-$(NAME): $(OBJ_FILES)
+$(NAME): $(OBJ_FILES) $(ADDS)
 	ar -crs $@ $^
+
+$(ADDS):
+	@make -C libft bonus
 
 %.o: %.c $(header)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
 	rm -f $(OBJ) $(BONES_OBJ)
+	@make -C libft clean
 
-fclean: clean
-	rm -f $(NAME)
+fclean:
+	rm -f $(NAME) $(OBJ) $(BONES_OBJ)
+	@make -C libft fclean
 
 re:
 	$(MAKE) fclean

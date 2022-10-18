@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:16:14 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/15 15:45:26 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/18 17:45:13 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_clist	*make_map(char **argv)
 		temp = c_newlist(string);
 		if (!temp)
 		{
-			write(2, "temp\n", 5);
+			ft_printf("Error\nlist malloc problem");
 			exit(0);
 		}
 		c_lstadd_back(&map, temp);
@@ -39,15 +39,15 @@ t_clist	*make_map(char **argv)
 
 void	char_sprite(t_vars *vars, t_clist *map, int *xy, int space)
 {
-	if (!map)
-		write(1,"@@\n",3);
 	while (map->n_list < xy[1])
 		map = map->next;
 	if ((map->string)[xy[0]] == '1')
-		mlx_put_image_to_window(vars->mlx,vars->win, vars->wall->img, xy[0] * space, xy[1] * space);
+		mlx_put_image_to_window(vars->mlx, vars->win,
+			vars->wall->img, xy[0] * space, xy[1] * space);
 	if ((map->string)[xy[0]] == 'P')
 	{
-		mlx_put_image_to_window(vars->mlx,vars->win, vars->play->img, 10 + (xy[0] * space), 10 + (xy[1] * space));
+		mlx_put_image_to_window(vars->mlx, vars->win,
+			vars->play->img, 10 + (xy[0] * space), 10 + (xy[1] * space));
 		vars->play->x = xy[0];
 		vars->play->y = xy[1];
 	}
@@ -58,7 +58,8 @@ void	char_sprite(t_vars *vars, t_clist *map, int *xy, int space)
 	}
 	if ((map->string)[xy[0]] == 'C')
 	{
-		mlx_put_image_to_window(vars->mlx,vars->win, vars->collect->img, xy[0] * space, xy[1] * space);
+		mlx_put_image_to_window(vars->mlx, vars->win,
+			vars->collect->img, xy[0] * space, xy[1] * space);
 		vars->play->sluge++;
 	}
 }
@@ -67,8 +68,6 @@ void	put_map(t_vars *vars, int space)
 {
 	int	xy[2];
 
-	vars->map_x = 16;
-	vars->map_y = 6;
 	vars->play->sluge = 0;
 	xy[0] = 0;
 	xy[1] = 0;
@@ -76,7 +75,8 @@ void	put_map(t_vars *vars, int space)
 	{
 		while (xy[0] < vars->map_x)
 		{
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->floor->img, xy[0] * space, xy[1] * space);
+			mlx_put_image_to_window(vars->mlx, vars->win,
+				vars->floor->img, xy[0] * space, xy[1] * space);
 			char_sprite(vars, vars->map, xy, space);
 			xy[0]++;
 		}
@@ -85,10 +85,10 @@ void	put_map(t_vars *vars, int space)
 	}
 	if (!vars->play->sluge)
 	{
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit->img2, 10 + vars->exit->x * 64, 10 + vars->exit->y * 64);
-		vars->exit->sluge = 0;
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit->img2,
+			10 + vars->exit->x * 64, 10 + vars->exit->y * 64);
 	}
 	else
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit->img, 10 + vars->exit->x * 64, 10 + vars->exit->y * 64);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit->img,
+			10 + vars->exit->x * 64, 10 + vars->exit->y * 64);
 }
-	// system("leaks -q so_long"); map_x

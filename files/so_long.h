@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:13:38 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/15 15:54:45 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/18 17:50:21 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../mlx/mlx.h"
 # include "../get_next_line/get_next_line.h"
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include "char_list.h"
@@ -27,6 +26,12 @@ typedef struct s_data {
 	int		y;
 }				t_data;
 
+typedef struct s_map {
+	int			map_c;
+	int			map_p;
+	int			map_e;
+}				t_map;
+
 typedef struct s_player{
 	int		y;
 	int		x;
@@ -34,6 +39,9 @@ typedef struct s_player{
 	int		steps;
 	void	*img;
 	void	*img2;
+	void	*img3;
+	void	*img_l;
+	void	*img_r;
 }				t_player;
 
 typedef struct s_vars {
@@ -46,13 +54,15 @@ typedef struct s_vars {
 	t_player	*exit;
 	t_player	*play;
 	t_clist		*map;
+	char		*string;
 	int			map_x;
 	int			map_y;
-	int			map_len;
 }				t_vars;
 
 t_clist	*make_map(char **argv);
 void	put_map(t_vars *vars, int space);
 void	check_map(t_clist *map, t_vars *vars);
+void	map_exit(void);
+int		exit_pro(t_vars *vars);
 
 #endif

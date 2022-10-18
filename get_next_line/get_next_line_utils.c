@@ -6,13 +6,13 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/21 15:22:40 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/11 17:13:12 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/17 16:15:26 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_calloc(size_t size1)
+char	*ft_caloc(size_t size1)
 {
 	long unsigned int	i;
 	char				*star;
