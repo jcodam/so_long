@@ -6,13 +6,13 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:04:13 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 17:45:54 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/18 18:28:23 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	aloc_vars2(t_vars *vars)
+static void	aloc_vars2(t_vars *vars)
 {
 	vars->exit->img = mlx_xpm_file_to_image(vars->mlx,
 			"image/BARREL_1.xpm", &vars->play->x, &vars->play->y);
@@ -34,7 +34,7 @@ void	aloc_vars2(t_vars *vars)
 			"image/SLIME_1A.xpm", &vars->wall->x, &vars->wall->y);
 }
 
-void	aloc_vars(t_vars *vars, t_clist *map)
+static void	aloc_vars(t_vars *vars, t_clist *map)
 {
 	vars->play = malloc(sizeof(t_player));
 	vars->floor = malloc(sizeof(t_data));
@@ -52,7 +52,7 @@ void	aloc_vars(t_vars *vars, t_clist *map)
 	vars->play->img = vars->play->img2;
 }
 
-void	move(t_vars *vars, t_clist *map, int x, int y)
+static void	move(t_vars *vars, t_clist *map, int x, int y)
 {
 	char	c;
 	t_clist	*temp;
@@ -79,7 +79,7 @@ void	move(t_vars *vars, t_clist *map, int x, int y)
 		exit_pro(vars);
 }
 
-int	action(int key, t_vars *vars)
+static int	action(int key, t_vars *vars)
 {
 	char	*steps;
 

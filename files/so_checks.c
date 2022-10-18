@@ -6,13 +6,13 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:36:35 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 17:41:33 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/18 18:27:23 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	dd(t_clist *map, int i, t_map *cep, t_vars *vars)
+static int	check_valid_char(t_clist *map, int i, t_map *cep, t_vars *vars)
 {
 	if (map->string[i] == '1')
 		return (1);
@@ -38,7 +38,7 @@ int	dd(t_clist *map, int i, t_map *cep, t_vars *vars)
 	return (0);
 }
 
-int	tt(t_clist *map, int i, t_map *cep, t_vars *vars)
+static int	test_wall(t_clist *map, int i, t_map *cep, t_vars *vars)
 {
 	if (!i && !map->n_list)
 	{
@@ -46,7 +46,7 @@ int	tt(t_clist *map, int i, t_map *cep, t_vars *vars)
 		cep->map_p = 0;
 		cep->map_e = 0;
 	}
-	if (!dd(map, i, cep, vars))
+	if (!check_valid_char(map, i, cep, vars))
 		map_exit();
 	if (!map->back || !map->next)
 	{
@@ -61,10 +61,10 @@ int	tt(t_clist *map, int i, t_map *cep, t_vars *vars)
 	return (1);
 }
 
-int	walk_route(char **route, int x, int y, t_map *cep)
+static int	walk_route(char **route, int x, int y, t_map *cep)
 {
 	if (route[y][x] == 'E')
-		return (1);
+		return (0);
 	if (route[y][x] == 'C')
 		cep->map_p += 1;
 	route[y][x] = '1';
@@ -79,7 +79,7 @@ int	walk_route(char **route, int x, int y, t_map *cep)
 	return (cep->map_e);
 }
 
-void	map_route(t_clist *map, t_vars *vars, t_map *cep)
+static void	map_route(t_clist *map, t_vars *vars, t_map *cep)
 {
 	char	**test_route;
 
@@ -91,18 +91,18 @@ void	map_route(t_clist *map, t_vars *vars, t_map *cep)
 	while (map)
 	{
 		test_route[cep->map_e] = ft_strdup(map->string);
+		if (!test_route[cep->map_e])
+			map_exit();
 		cep->map_e += 1;
 		map = map->next;
 	}
-	cep->map_e = 0;
-	if (!walk_route(test_route, vars->play->x, vars->play->y, cep))
+	if (walk_route(test_route, vars->play->x, vars->play->y, cep))
 		map_exit();
 	if (cep->map_p != cep->map_c)
 		map_exit();
-	cep->map_p = 0;
-	while (cep->map_p < vars->map_y)
+	while (cep->map_p - cep->map_c < vars->map_y)
 	{
-		free(test_route[cep->map_p]);
+		free(test_route[cep->map_p - cep->map_c]);
 		cep->map_p += 1;
 	}
 	free(test_route);
@@ -118,7 +118,7 @@ void	check_map(t_clist *map, t_vars *vars)
 	while (map->next)
 	{
 		while (map->string[i] != '\n')
-			i += tt(map, i, &cep, vars);
+			i += test_wall(map, i, &cep, vars);
 		if (!vars->map_x)
 			vars->map_x = i;
 		if (i != vars->map_x)
@@ -127,7 +127,7 @@ void	check_map(t_clist *map, t_vars *vars)
 		map = map->next;
 	}
 	while (map->string[i])
-		i += tt(map, i, &cep, vars);
+		i += test_wall(map, i, &cep, vars);
 	if (cep.map_c < 1 || cep.map_e != 1 || cep.map_p != 1)
 		map_exit();
 	vars->map_y = map->n_list + 1;

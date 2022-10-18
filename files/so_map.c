@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:16:14 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 17:45:13 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/18 18:27:45 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_clist	*make_map(char **argv)
 	return (map);
 }
 
-void	char_sprite(t_vars *vars, t_clist *map, int *xy, int space)
+static void	char_sprite(t_vars *vars, t_clist *map, int *xy, int space)
 {
 	while (map->n_list < xy[1])
 		map = map->next;
