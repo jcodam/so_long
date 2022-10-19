@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:04:13 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 18:28:23 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/19 15:50:51 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,11 @@ int	main(int argc, char **argv)
 	t_clist	*map;
 	t_vars	vars;
 
-	if (argc != 2)
-	{
-		write (2, "no or to litle args", 19);
-		return (0);
-	}
+	if (argc < 2)
+		map_exit("Error\nno arg given\n");
+	if (argc > 2)
+		map_exit("Error\nto many args given\n");
+	_ber(argv[1]);
 	map = make_map(argv);
 	vars.mlx = mlx_init();
 	aloc_vars(&vars, map);

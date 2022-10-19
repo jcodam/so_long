@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:16:14 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 18:27:45 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/19 17:11:31 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ t_clist	*make_map(char **argv)
 
 	map = NULL;
 	fd = open(argv[1], O_RDONLY);
+	if (fd < 1)
+		map_exit("Error\ncan't open file\n");
 	string = get_next_line(fd);
 	while (string)
 	{
 		temp = c_newlist(string);
 		if (!temp)
-		{
-			ft_printf("Error\nlist malloc problem");
-			exit(0);
-		}
+			map_exit("Error\nmalloc problem\n");
 		c_lstadd_back(&map, temp);
 		string = get_next_line(fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 14:13:38 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 17:50:21 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/19 15:40:10 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ typedef struct s_vars {
 t_clist	*make_map(char **argv);
 void	put_map(t_vars *vars, int space);
 void	check_map(t_clist *map, t_vars *vars);
-void	map_exit(void);
+void	map_exit(char *str);
 int		exit_pro(t_vars *vars);
+void	find_error(t_map *cep, int i, int x);
+void	_ber(char *arg);
 
 #endif

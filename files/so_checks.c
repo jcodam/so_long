@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:36:35 by jbax          #+#    #+#                 */
-/*   Updated: 2022/10/18 18:27:23 by jbax          ########   odam.nl         */
+/*   Updated: 2022/10/19 17:52:43 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ static int	test_wall(t_clist *map, int i, t_map *cep, t_vars *vars)
 		cep->map_e = 0;
 	}
 	if (!check_valid_char(map, i, cep, vars))
-		map_exit();
+		map_exit("Error\ninvalid chars in map\n");
 	if (!map->back || !map->next)
 	{
 		if (map->string[i] != '1')
-			map_exit();
+			map_exit("Error\nmap is not corectly walled\n");
 	}
 	if (i == 0 || map->string[i + 1] == '\n')
 	{
 		if (map->string[i] != '1')
-			map_exit();
+			map_exit("Error\nmap is not corectly walled\n");
 	}
 	return (1);
 }
@@ -85,21 +85,21 @@ static void	map_route(t_clist *map, t_vars *vars, t_map *cep)
 
 	test_route = malloc(vars->map_y * sizeof(char *));
 	if (!test_route)
-		map_exit();
+		map_exit("Error\nmalloc failed\n");
 	cep->map_e = 0;
 	cep->map_p = 0;
 	while (map)
 	{
 		test_route[cep->map_e] = ft_strdup(map->string);
 		if (!test_route[cep->map_e])
-			map_exit();
+			map_exit("Error\nmalloc failed\n");
 		cep->map_e += 1;
 		map = map->next;
 	}
 	if (walk_route(test_route, vars->play->x, vars->play->y, cep))
-		map_exit();
+		map_exit("Error\ncan't exit the map\n");
 	if (cep->map_p != cep->map_c)
-		map_exit();
+		map_exit("Error\ncan't collect all the sluge\n");
 	while (cep->map_p - cep->map_c < vars->map_y)
 	{
 		free(test_route[cep->map_p - cep->map_c]);
@@ -121,15 +121,14 @@ void	check_map(t_clist *map, t_vars *vars)
 			i += test_wall(map, i, &cep, vars);
 		if (!vars->map_x)
 			vars->map_x = i;
-		if (i != vars->map_x)
-			map_exit();
+		if (i != vars->map_x || !i)
+			map_exit("Error\nmap is not rectangular\n");
 		i = 0;
 		map = map->next;
 	}
-	while (map->string[i])
+	while (map->string[i] && map->string[i] != '\n')
 		i += test_wall(map, i, &cep, vars);
-	if (cep.map_c < 1 || cep.map_e != 1 || cep.map_p != 1)
-		map_exit();
+	find_error(&cep, i, vars->map_x);
 	vars->map_y = map->n_list + 1;
 	while (map->back)
 		map = map->back;

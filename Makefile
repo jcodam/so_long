@@ -26,6 +26,19 @@ smal:$(NAME)
 mediam:$(NAME)
 	./$(NAME) "map/mediam_map.ber"
 
+big:$(NAME)
+	./$< "map/big_map.ber"
+
+invalid:$(NAME)
+	./$< "map/no_ber"
+	./$< "map/no_exit.ber"
+	./$< "map/no_sluge.ber"
+	./$< "map/no_player.ber"
+	./$< "map/can't_reach_exit.ber"
+	./$< "this_not_a_file.ber"
+	./$< "map/big_map.ber" "map/smal_map.ber"
+	./$<
+
 $(NAME): $(OBJ) $(ADDS)
 	$(CC) -o $@ $^ $(MLX)
 
@@ -50,4 +63,4 @@ re:
 bonus:
 	$(MAKE) plusbones=1 all
 
-.PHONY: all clean fclean re bonus smal mediam
+.PHONY: all clean fclean re bonus smal mediam big invalid
