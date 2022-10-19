@@ -4,7 +4,7 @@ NAME=so_long
 
 OBJ= $(OBJ_path)so_main.o $(OBJ_path)so_map.o $(OBJ_path)char_list.o $(OBJ_path)so_checks.o $(OBJ_path)so_extra.o
 
-ADDS= get_next_line/get_next_line.o get_next_line/get_next_line_utils.o $(print_path)libftprintf.a
+ADDS= get_next_line/get_next_line.o get_next_line/get_next_line_utils.o $(print_path)libftprintf.a mlx/libmlx.a
 
 line_path= get_next_line/
 
@@ -43,24 +43,23 @@ $(NAME): $(OBJ) $(ADDS)
 	$(CC) -o $@ $^ $(MLX)
 
 %.a:
-	make -C $(print_path)
+	@$(MAKE) -C $(print_path)
+	@$(MAKE) -C mlx/
 
 %.o: %.c $(header)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
 	rm -f $(OBJ) $(ADDS)
-	make -C $(print_path) clean
+	$(MAKE) -C $(print_path) clean
+	$(MAKE) -C mlx/ clean
 
 fclean:
 	rm -f $(NAME) $(OBJ) $(ADDS)
-	make -C $(print_path) fclean
+	$(MAKE) -C $(print_path) fclean
 
 re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-bonus:
-	$(MAKE) plusbones=1 all
-
-.PHONY: all clean fclean re bonus smal mediam big invalid
+.PHONY: all clean fclean re smal mediam big invalid
